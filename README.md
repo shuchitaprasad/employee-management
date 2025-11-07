@@ -1,0 +1,102 @@
+# Employee Management — Code Quality Baseline
+
+This repository is a small Spring Boot project created to demonstrate and collect baseline static analysis issues from several tools (intentionally kept as violations in the sample code):
+
+- Checkstyle
+- SpotBugs (with FindSecBugs)
+- PMD
+- Error Prone
+
+This project intentionally contains sample violations so teams can generate reproducible reports and establish a baseline before applying fixes or an automation agent (`AGENT.md` will be added later to show remediation guidance).
+
+## What this repo shows
+
+- A minimal Spring Boot REST API for `Employee` (entity, repository, service, controller).
+- Configured Maven plugins for the code-quality tools and JaCoCo coverage:
+  - Checkstyle (custom rules at `config/checkstyle/checkstyle.xml`) — currently configured to fail the build on violations.
+  - SpotBugs (with FindSecBugs) — configured with a filter at `config/spotbugs/spotbugs-exclude.xml`.
+  - PMD (ruleset at `config/pmd/ruleset.xml`) — pinned to a PMD-compatible plugin version in `pom.xml`.
+  - Error Prone (annotation-processor configured in Maven compiler profile).
+  - JaCoCo (coverage reports under `target/site/jacoco`).
+
+## Key report locations (after running the Maven goals below)
+
+- Checkstyle XML report:
+  - `target/reports/checkstyle-violations.xml`
+- SpotBugs XML report:
+  - `target/spotbugs.xml`
+- PMD XML report:
+  - `target/pmd.xml`
+- JaCoCo HTML report (recommended):
+  - `target/site/jacoco/index.html`
+- JaCoCo XML (machine-readable):
+  - `target/site/jacoco/jacoco.xml`
+
+
+## Quickstart — run analyses and tests (Windows PowerShell)
+
+Note: this project intentionally contains violations and the build is configured to fail if Checkstyle/SpotBugs/PMD find configured failures. If you want to run the checks and see failing output, run the full lifecycle. If you want to run tests / coverage while skipping the checks, see the skip commands below.
+
+Run full verification (may fail due to configured violations):
+
+```powershell
+# Runs full verify including checkstyle/spotbugs/pmd (may fail)
+.\mvnw.cmd clean verify
+```
+
+Generate tests and JaCoCo report (tests only — may still fail in verify if checks are enabled):
+
+```powershell
+# Run tests and generate JaCoCo HTML/XML
+.\mvnw.cmd test org.jacoco:jacoco-maven-plugin:0.8.10:report -DskipITs=true
+```
+
+Run tests & coverage while skipping Checkstyle/SpotBugs/PMD (handy to run tests without build failures):
+
+```powershell
+# Skip static-analysis checks so test and report generation complete
+.\mvnw.cmd -Dcheckstyle.skip=true -Dspotbugs.skip=true -Dpmd.skip=true clean test org.jacoco:jacoco-maven-plugin:0.8.10:report -DskipITs=true
+```
+
+If you only want to run individual plugins, use their goals, for example:
+
+```powershell
+# Run only PMD check
+.\mvnw.cmd pmd:check
+
+# Run only SpotBugs check
+.\mvnw.cmd spotbugs:check
+
+# Run only Checkstyle check
+.\mvnw.cmd checkstyle:check
+```
+
+## Baseline counts (current state in this repo)
+
+These are the results from recent runs included in the repository session (keep in mind your local run may differ as code changes):
+
+- Checkstyle: 63 errors (see `target/reports/checkstyle-violations.xml`)
+- SpotBugs: 2 bug instances (SPRING_ENDPOINT in `EmployeeController`) — see `target/spotbugs.xml`
+- PMD: 1 violation — see `target/pmd.xml`
+- JaCoCo (coverage snapshot from last run):
+  - Instruction coverage: 25.7% (18/70)
+  - Line coverage: 32.0% (8/25)
+  - Method coverage: 26.7% (4/15)
+  - Classes analyzed: 4
+
+These numbers are a baseline. The purpose is to collect these before any remediation or automation agent changes are applied.
+
+## Notes and recommended next steps
+
+- This repository serves as a baseline dataset. Do not merge remediation changes directly here — use this baseline to measure improvement.
+- The next planned doc is `AGENT.md` which will describe automation/scripting guidance for fixing or triaging issues. That file will be added once the team decides on remediation strategy.
+- Recommend adding unit tests that exercise `EmployeeService` and `EmployeeController` (use `@WebMvcTest` or MockMvc) to increase coverage and exercise business logic.
+- If you want help creating test skeletons or selectively fixing a subset of Checkstyle/PMD/SpotBugs issues, tell me which class or rule to prioritize and I can create PR-ready edits or tests.
+
+## Contact / Maintainers
+
+This repository is a demo baseline. If you need a different baseline (different rulesets or thresholds), update the config files under `config/` and re-run the Maven goals above.
+
+---
+
+(AGENT.md will be created in a future update to describe automated remediation and enforcement workflows.)
