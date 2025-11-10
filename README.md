@@ -1,13 +1,13 @@
 # Employee Management — Code Quality Baseline
 
-This repository is a small Spring Boot project created to demonstrate and collect baseline static analysis issues from several tools (intentionally kept as violations in the sample code):
+This repository is a small Spring Boot project created to demonstrate and collect baseline static analysis issues from several tools before and after adding AGENTS.MD file.
 
 - Checkstyle
 - SpotBugs (with FindSecBugs)
 - PMD
 - Error Prone
 
-This project intentionally contains sample violations so teams can generate reproducible reports and establish a baseline before applying fixes or an automation agent (`AGENT.md` will be added later to show remediation guidance).
+This project  acts as a starting point, same prompt will be given to coding agents GIThub Copilot/ Windsurf for generating a CRUD API code. It will be observed that without defining AGENTS.md file, sample violations number will be very hihg which can be easily act as a metric to measure the code qaulity. This will be followed by addition of AGENTS.md file to the code base and regeneration of the code with AGENTS.d file. We will observe a clear reduction in the static tool violations and improved code coverage. The same tool can be used across coding agents and will live across mutiple chat sessions.
 
 ## What this repo shows
 
@@ -75,14 +75,7 @@ If you only want to run individual plugins, use their goals, for example:
 
 These are the results from recent runs included in the repository session (keep in mind your local run may differ as code changes):
 
-- Checkstyle: 63 errors (see `target/reports/checkstyle-violations.xml`)
-- SpotBugs: 2 bug instances (SPRING_ENDPOINT in `EmployeeController`) — see `target/spotbugs.xml`
-- PMD: 1 violation — see `target/pmd.xml`
-- JaCoCo (coverage snapshot from last run):
-  - Instruction coverage: 25.7% (18/70)
-  - Line coverage: 32.0% (8/25)
-  - Method coverage: 26.7% (4/15)
-  - Classes analyzed: 4
+There are 0 violations from the current code.
 
 These numbers are a baseline. The purpose is to collect these before any remediation or automation agent changes are applied.
 

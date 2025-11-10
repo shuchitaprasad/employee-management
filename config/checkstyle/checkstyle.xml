@@ -20,15 +20,6 @@
                value="Package name ''{0}'' must match pattern ''{1}''."/>
     </module>
 
-    <!-- Import ordering -->
-    <module name="CustomImportOrder">
-      <property name="severity" value="error"/>
-      <property name="standardPackageRegExp" value="^java\.|^javax\.|^org\.|^com\."/>
-      <property name="specialImportsRegExp" value="^"/>
-      <property name="sortImportsInGroupAlphabetically" value="true"/>
-      <property name="customImportOrderRules" value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS"/>
-    </module>
-
     <!-- Avoid star imports -->
     <module name="AvoidStarImport">
       <property name="severity" value="error"/>
