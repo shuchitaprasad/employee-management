@@ -13,11 +13,16 @@ This project  acts as a starting point, same prompt will be given to coding agen
 
 - A minimal Spring Boot REST API for `Employee` (entity, repository, service, controller).
 - Configured Maven plugins for the code-quality tools and JaCoCo coverage:
-  - Checkstyle (custom rules at `config/checkstyle/checkstyle.xml`) — currently configured to fail the build on violations.
-  - SpotBugs (with FindSecBugs) — configured with a filter at `config/spotbugs/spotbugs-exclude.xml`.
-  - PMD (ruleset at `config/pmd/ruleset.xml`) — pinned to a PMD-compatible plugin version in `pom.xml`.
-  - Error Prone (annotation-processor configured in Maven compiler profile).
+  - Checkstyle (custom rules at `config/checkstyle/checkstyle.xml`) — configured to fail the build on violations.
+  - SpotBugs (with FindSecBugs) — configured with a filter at `config/spotbugs/spotbugs-exclude.xml`. See `docs/SPOTBUGS_RULES.md` for detailed rule explanations.
+  - PMD (ruleset at `config/pmd/ruleset.xml`) — pinned to a PMD-compatible plugin version. See `docs/PMD_RULES.md` for rule documentation.
+  - Error Prone (annotation-processor configured in Maven compiler profile). See `docs/ERROR_PRONE_RULES.md` for configured rules.
   - JaCoCo (coverage reports under `target/site/jacoco`).
+
+Detailed documentation for each tool's rules, examples, and best practices can be found in the `docs/` folder:
+- `docs/PMD_RULES.md` - PMD rules reference with examples
+- `docs/SPOTBUGS_RULES.md` - SpotBugs and FindSecBugs rules guide
+- `docs/ERROR_PRONE_RULES.md` - Error Prone compilation checks
 
 ## Key report locations (after running the Maven goals below)
 
@@ -79,12 +84,29 @@ There are 0 violations from the current code.
 
 These numbers are a baseline. The purpose is to collect these before any remediation or automation agent changes are applied.
 
+## Documentation and Rules
+
+### Code Quality Rules
+The `docs/` folder contains detailed documentation for each static analysis tool:
+- `docs/PMD_RULES.md` - PMD rules with examples and severity levels
+- `docs/SPOTBUGS_RULES.md` - SpotBugs rules including security checks
+- `docs/ERROR_PRONE_RULES.md` - Error Prone compilation warnings
+
+Each document includes:
+- Detailed rule descriptions with code examples
+- Severity levels and enforcement policies
+- How to suppress specific warnings when needed
+- Best practices and common fixes
+
 ## Notes and recommended next steps
 
 - This repository serves as a baseline dataset. Do not merge remediation changes directly here — use this baseline to measure improvement.
 - The next planned doc is `AGENT.md` which will describe automation/scripting guidance for fixing or triaging issues. That file will be added once the team decides on remediation strategy.
 - Recommend adding unit tests that exercise `EmployeeService` and `EmployeeController` (use `@WebMvcTest` or MockMvc) to increase coverage and exercise business logic.
-- If you want help creating test skeletons or selectively fixing a subset of Checkstyle/PMD/SpotBugs issues, tell me which class or rule to prioritize and I can create PR-ready edits or tests.
+- If you want help creating test skeletons or selectively fixing a subset of Checkstyle/PMD/SpotBugs issues:
+  1. Review the rules in the `docs/` folder
+  2. Identify which rules you want to address
+  3. Tell me which class or rule to prioritize for fixes/tests
 
 ## Contact / Maintainers
 
